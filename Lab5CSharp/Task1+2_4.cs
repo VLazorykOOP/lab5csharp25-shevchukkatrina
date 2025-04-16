@@ -2,11 +2,9 @@
 
 public class Detail
 {
-    // Поля базового класу
     public string Name { get; set; }
     public int ID { get; set; }
 
-    // Конструктори
     public Detail()
     {
         Console.WriteLine("Detail: Конструктор за замовчуванням");
@@ -26,13 +24,11 @@ public class Detail
         Console.WriteLine("Detail: Конструктор копіювання");
     }
 
-    // Метод для виведення інформації
     public virtual void Show()
     {
         Console.WriteLine($"Detail: Назва - {Name}, ID - {ID}");
     }
 
-    // Деструктор
     ~Detail()
     {
         Console.WriteLine("Detail: Деструктор");
@@ -41,10 +37,8 @@ public class Detail
 
 public class Mechanism : Detail
 {
-    // Поля для похідного класу Mechanism
     public int ComponentCount { get; set; }
 
-    // Конструктори
     public Mechanism() : base()
     {
         Console.WriteLine("Mechanism: Конструктор за замовчуванням");
@@ -62,14 +56,12 @@ public class Mechanism : Detail
         Console.WriteLine("Mechanism: Конструктор копіювання");
     }
 
-    // Метод для виведення інформації
     public override void Show()
     {
         base.Show();
         Console.WriteLine($"Mechanism: Кількість компонентів - {ComponentCount}");
     }
 
-    // Деструктор
     ~Mechanism()
     {
         Console.WriteLine("Mechanism: Деструктор");
@@ -78,10 +70,8 @@ public class Mechanism : Detail
 
 public class Product : Mechanism
 {
-    // Поля для похідного класу Product
     public string ProductType { get; set; }
 
-    // Конструктори
     public Product() : base()
     {
         Console.WriteLine("Product: Конструктор за замовчуванням");
@@ -99,14 +89,12 @@ public class Product : Mechanism
         Console.WriteLine("Product: Конструктор копіювання");
     }
 
-    // Метод для виведення інформації
     public override void Show()
     {
         base.Show();
         Console.WriteLine($"Product: Тип продукту - {ProductType}");
     }
 
-    // Деструктор
     ~Product()
     {
         Console.WriteLine("Product: Деструктор");
@@ -115,10 +103,8 @@ public class Product : Mechanism
 
 public class Node : Product
 {
-    // Поля для похідного класу Node
     public int NodeID { get; set; }
 
-    // Конструктори
     public Node() : base()
     {
         Console.WriteLine("Node: Конструктор за замовчуванням");
@@ -136,14 +122,12 @@ public class Node : Product
         Console.WriteLine("Node: Конструктор копіювання");
     }
 
-    // Метод для виведення інформації
     public override void Show()
     {
         base.Show();
         Console.WriteLine($"Node: ID вузла - {NodeID}");
     }
 
-    // Деструктор
     ~Node()
     {
         Console.WriteLine("Node: Деструктор");

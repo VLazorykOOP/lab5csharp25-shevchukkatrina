@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static Person;
 
 class Program
 {
@@ -8,12 +9,11 @@ class Program
         Console.OutputEncoding = System.Text.Encoding.UTF8;
 
         Console.WriteLine("Введіть номер завдання:");
-        Console.WriteLine("1 - Task1 (Деталь)");
-        Console.WriteLine("2 - Task2 (Деталь + вивід)");
-        Console.WriteLine("3 - Task3 (Клієнти)");
-        Console.WriteLine("41 - Task4 Struct");
-        Console.WriteLine("42 - Task4 Tuple");
-        Console.WriteLine("43 - Task4 Record");
+        Console.WriteLine("1 - Task1+Task2(Деталь + вивід)");
+        Console.WriteLine("2 - Task3 (Клієнти)");
+        Console.WriteLine("3.1 - Task4 Struct");
+        Console.WriteLine("3.2 - Task4 Tuple");
+        Console.WriteLine("3.3 - Task4 Record");
         Console.Write("Ваш вибір: ");
 
         string input = Console.ReadLine();
@@ -25,22 +25,18 @@ class Program
                 break;
 
             case "2":
-                Task2();
-                break;
-
-            case "3":
                 Task3();
                 break;
 
-            case "41":
+            case "3.1":
                 StructProcessor.RunStructExample();
                 break;
 
-            case "42":
+            case "3.2":
                 TupleProcessor.RunTupleExample();
                 break;
 
-            case "43":
+            case "3.3":
                 RecordProcessor.RunRecordExample();
                 break;
 
@@ -75,44 +71,28 @@ class Program
         Console.WriteLine("Кінець програми");
     }
 
-    static void Task2()
-    {
-    }
-
-
     static void Task3()
     {
-        List<Client> clients = new List<Client>
-        {
-            new Depositor("Петренко", new DateTime(2023, 5, 1), 10000, 5.5),
-            new Creditor("Іваненко", new DateTime(2023, 5, 2), 20000, 12.5, 8000),
-            new Organization("ТОВ Альфа", new DateTime(2023, 5, 1), "UA12345678", 150000),
-            new Depositor("Сидоренко", new DateTime(2024, 2, 10), 5000, 4.8)
-        };
+        ClientDatabase database = new ClientDatabase();
 
-        Console.WriteLine("=== Усі клієнти ===\n");
+        database.AddClient(new Depositor("Іванов", new DateTime(2023, 5, 15), 50000, 12.5));
+        database.AddClient(new Creditor("Петров", new DateTime(2023, 5, 15), 100000, 14.2, 75000));
+        database.AddClient(new Organization("ТОВ Глобус", new DateTime(2023, 6, 10), "26007123456789", 230000));
+        database.AddClient(new Depositor("Сидоров", new DateTime(2023, 6, 10), 75000, 11.8));
+        database.AddClient(new Organization("ПП Зоря", new DateTime(2023, 7, 22), "26001987654321", 180000));
 
-        foreach (var client in clients)
-        {
-            client.ShowInfo();
-        }
+        database.DisplayAllClients();
 
-        Console.WriteLine("\nВведіть дату для пошуку (у форматі рррр-мм-дд):");
-        string input = Console.ReadLine();
+        DateTime searchDate = new DateTime(2023, 5, 15);
+        database.FindClientsByDate(searchDate);
 
-        if (DateTime.TryParse(input, out DateTime searchDate))
-        {
-            Console.WriteLine($"\nКлієнти, що співпрацюють з банком з {searchDate.ToShortDateString()}:\n");
+        searchDate = new DateTime(2023, 6, 10);
+        database.FindClientsByDate(searchDate);
 
-            foreach (var client in clients)
-            {
-                if (client.IsMatchDate(searchDate))
-                    client.ShowInfo();
-            }
-        }
-        else
-        {
-            Console.WriteLine("Некоректний формат дати.");
-        }
+        searchDate = new DateTime(2023, 1, 1);
+        database.FindClientsByDate(searchDate);
+
+        Console.WriteLine("\nНатисніть будь-яку клавішу для виходу...");
+        Console.ReadKey();
     }
 }

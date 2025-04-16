@@ -1,49 +1,84 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public struct PersonStruct
+struct Person
 {
     public string LastName;
     public string FirstName;
     public string MiddleName;
     public string Address;
-    public string Phone;
+    public string PhoneNumber;
     public int Age;
 
-    public PersonStruct(string lastName, string firstName, string middleName, string address, string phone, int age)
+    public override string ToString()
     {
-        LastName = lastName;
-        FirstName = firstName;
-        MiddleName = middleName;
-        Address = address;
-        Phone = phone;
-        Age = age;
+        return $"{LastName} {FirstName} {MiddleName}, Адреса: {Address}, Телефон: {PhoneNumber}, Вік: {Age}";
     }
-}
 
-public class StructProcessor
-{
-    public static void RunStructExample()
+    public class StructProcessor
     {
-        var people = new List<PersonStruct>
+        public static void RunStructExample()
         {
-            new PersonStruct("Іваненко", "Іван", "Іванович", "Київ", "111", 25),
-            new PersonStruct("Петренко", "Петро", "Петрович", "Львів", "222", 30),
-            new PersonStruct("Сидоренко", "Сидір", "Сидорович", "Одеса", "333", 25)
-        };
+            List<Person> people = new List<Person>
+            {
+                new Person { LastName = "Іваненко", FirstName = "Іван", MiddleName = "Іванович", Address = "вул. Шевченка 1", PhoneNumber = "0671234567", Age = 25 },
+                new Person { LastName = "Петренко", FirstName = "Петро", MiddleName = "Петрович", Address = "вул. Франка 2", PhoneNumber = "0672345678", Age = 30 },
+                new Person { LastName = "Сидоренко", FirstName = "Сидір", MiddleName = "Сидорович", Address = "вул. Лесі Українки 3", PhoneNumber = "0673456789", Age = 25 },
+                new Person { LastName = "Коваленко", FirstName = "Ольга", MiddleName = "Олегівна", Address = "вул. Гончара 4", PhoneNumber = "0674567890", Age = 35 }
+            };
 
-        int targetAge = 25;
-        string afterPhone = "222";
-        var newPerson = new PersonStruct("Новий", "Андрій", "Олегович", "Харків", "444", 28);
+            Console.WriteLine("Початковий масив людей:");
+            PrintPeople(people);
 
-        people.RemoveAll(p => p.Age == targetAge);
+            int ageToRemove = 25;
+            RemovePeopleByAge(people, ageToRemove);
 
-        int insertIndex = people.FindIndex(p => p.Phone == afterPhone);
-        if (insertIndex != -1)
-            people.Insert(insertIndex + 1, newPerson);
+            Console.WriteLine($"\nМасив після видалення людей з віком {ageToRemove}:");
+            PrintPeople(people);
 
-        Console.WriteLine("Результат (Struct):");
-        foreach (var p in people)
-            Console.WriteLine($"{p.LastName} {p.FirstName} {p.MiddleName}, {p.Age} років, Тел: {p.Phone}, Адреса: {p.Address}");
+            int indexToAddAfter = 0; // Додаємо після першого елемента (індекс 0)
+            Person newPerson = new Person
+            {
+                LastName = "Новаченко",
+                FirstName = "Марія",
+                MiddleName = "Василівна",
+                Address = "вул. Котляревського 5",
+                PhoneNumber = "0675678901",
+                Age = 28
+            };
+
+            AddPersonAfterIndex(people, indexToAddAfter, newPerson);
+
+            Console.WriteLine($"\nМасив після додавання нової людини після індексу {indexToAddAfter}:");
+            PrintPeople(people);
+
+            Console.ReadKey();
+        }
+
+        static void PrintPeople(List<Person> people)
+        {
+            for (int i = 0; i < people.Count; i++)
+            {
+                Console.WriteLine($"{i}. {people[i]}");
+            }
+        }
+
+        static void RemovePeopleByAge(List<Person> people, int age)
+        {
+            people.RemoveAll(p => p.Age == age);
+        }
+
+        static void AddPersonAfterIndex(List<Person> people, int index, Person person)
+        {
+            if (index >= 0 && index < people.Count)
+            {
+                people.Insert(index + 1, person);
+            }
+            else
+            {
+                Console.WriteLine("Некоректний індекс для вставки!");
+            }
+        }
     }
 }
+
